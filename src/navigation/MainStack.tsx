@@ -10,6 +10,7 @@ import { SignUpScreen } from '../screens/auth/SignUpScreen';
 import { TabStack } from './TabStack';
 import { Tab1Screen } from '../screens/tab/Tab1Screen';
 import { Tab2Screen } from '../screens/tab/Tab2Screen';
+import { Tab3Screen } from '../screens/tab/Tab3Screen';
 
 const Stack = createStackNavigator<MainStackParams>();
 
@@ -17,27 +18,15 @@ const authScreens: any = {};
 authScreens[Route.TAB_STACK] = TabStack;
 authScreens[Route.TAB1_SCREEN] = Tab1Screen;
 authScreens[Route.TAB2_SCREEN] = Tab2Screen;
+authScreens[Route.TAB3_SCREEN] = Tab3Screen;
 authScreens[Route.LOGIN_SCREEN] = LoginScreen;
 authScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
 
 export const MainStack = () => (
-  <Stack.Navigator initialRouteName={Route.TAB_STACK}>
-    {/* <Stack.Screen name="List" component={List} />
-    <Stack.Screen
-      name="TextDemo"
-      component={TextDemo}
-      options={{ headerTitle: 'Text Demo' }}
-    />
-    <Stack.Screen
-      name="FormDemo"
-      component={FormDemo}
-      options={{ headerTitle: 'Button Demo' }}
-    />
-    <Stack.Screen
-      name="ButtonDemo"
-      component={ButtonDemo}
-      options={{ headerTitle: 'Button Demo' }}
-    /> */}
+  <Stack.Navigator
+    initialRouteName={Route.TAB_STACK}
+    screenOptions={{ headerShown: false }}
+  >
     {Object.entries({
       ...authScreens,
     }).map(([name, component]: any, index: number) => {
