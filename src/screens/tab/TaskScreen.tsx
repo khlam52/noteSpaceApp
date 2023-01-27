@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  LayoutAnimation,
   ListRenderItemInfo,
   SafeAreaView,
   SectionList,
@@ -8,7 +9,9 @@ import {
   Text,
   View,
 } from 'react-native';
+import { CloseIcon, DeleteIcon } from '../../assets/images';
 import AppFocusAwareStatusBar from '../../components/AppFocusAwareStatusBar';
+import AppPressable from '../../components/AppPressable';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Route } from '../../navigation/Route';
 import StorageService from '../../services/StorageService';
@@ -25,15 +28,22 @@ export const TaskScreen = ({ navigation }: any) => {
   const styles = getStyle(theme);
 
   const [taskSectionList, setTaskSectionList] = useState<TaskSection[]>([]);
+  const [isShowDeleteTaskView, setIsShowDeleteTaskView] =
+    useState<boolean>(false);
 
   useEffect(() => {
     getTaskList();
   });
 
+  // First Task
   const getTaskList = useCallback(async () => {
     let list = await StorageService.getTaskList();
     setTaskSectionList(TaskHelper.getTaskSectionList(list));
   }, []);
+
+  const onDeleteTaskPress = () => {
+    setIsShowDeleteTaskView(previous => !previous);
+  };
 
   const onPressTaskItem = (taskItem: TaskItem) => {
     navigation.navigate(Route.TASK_CREATE_AND_EDIT_SCREEN, {
@@ -54,16 +64,31 @@ export const TaskScreen = ({ navigation }: any) => {
     }
 
     return (
-      <View>
+      <View style={styles.sectionHeaderView}>
         <Text
           style={styles.groupNameText}
         >{`${section.title} - ${section.data.length}`}</Text>
+        {!section.isCompletedList && taskSectionList.length > 0 && (
+          <AppPressable onPress={onDeleteTaskPress} disableDelayPress={true}>
+            {isShowDeleteTaskView ? (
+              <CloseIcon width={sw(16)} height={sw(16)} />
+            ) : (
+              <DeleteIcon />
+            )}
+          </AppPressable>
+        )}
       </View>
     );
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<TaskItem>) => {
-    return <RenderTaskListItem item={item} onPressItem={onPressTaskItem} />;
+    return (
+      <RenderTaskListItem
+        item={item}
+        onPressItem={onPressTaskItem}
+        isShowDeleteTaskView={isShowDeleteTaskView}
+      />
+    );
   };
 
   const renderListFooter = () => {
@@ -117,6 +142,12 @@ const getStyle = (theme: any) => {
       color: '#FFF',
       marginBottom: sw(24),
       paddingTop: sw(24),
+    },
+    sectionHeaderView: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
   });
 };

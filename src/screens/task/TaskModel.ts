@@ -8,5 +8,6 @@ export interface TaskItem {
 
 export interface TaskSection {
   title: string;
+  isCompletedList: boolean;
   data: TaskItem[];
 }

@@ -5,6 +5,8 @@ import TickIcon from './tick-icon.svg';
 import UnTickIcon from './un-tick-icon.svg';
 import ArrowRightIcon from './arrow-right-icon.svg';
 import BackIcon from './back-icon.svg';
+import DeleteIcon from './delete-icon.svg';
+import CloseIcon from './close-icon.svg';
 
 export {
   AddTaskIcon,
@@ -14,4 +16,6 @@ export {
   UnTickIcon,
   ArrowRightIcon,
   BackIcon,
+  DeleteIcon,
+  CloseIcon,
 };
