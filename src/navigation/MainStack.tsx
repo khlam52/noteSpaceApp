@@ -11,6 +11,7 @@ import { TabStack } from './TabStack';
 import { TaskScreen } from '../screens/tab/TaskScreen';
 import { HomeScreen } from '../screens/tab/HomeScreen';
 import { Tab3Screen } from '../screens/tab/Tab3Screen';
+import { TaskCreateAndEditScreen } from '../screens/task/TaskCreateAndEditScreen';
 
 const Stack = createStackNavigator<MainStackParams>();
 
@@ -19,6 +20,7 @@ authScreens[Route.TAB_STACK] = TabStack;
 authScreens[Route.TASK_SCREEN] = TaskScreen;
 authScreens[Route.HOME_SCREEN] = HomeScreen;
 authScreens[Route.TAB3_SCREEN] = Tab3Screen;
+authScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
 authScreens[Route.LOGIN_SCREEN] = LoginScreen;
 authScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
 

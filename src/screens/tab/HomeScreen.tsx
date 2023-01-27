@@ -15,6 +15,7 @@ import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { AppConfig } from '../../config';
 import colors from '../../constants/colors';
 import { useAppTheme } from '../../hooks/useAppTheme';
+import { Route } from '../../navigation/Route';
 import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
 import { ts } from '../../styles/Typography';
@@ -54,7 +55,11 @@ export const HomeScreen = ({ navigation }: any) => {
   const styles = getStyle(theme);
 
   const goTaskCreateScreen = () => {
-    // navigation.navigate(Route.TASK_CREATE_SCREEN);
+    navigation.navigate(Route.TASK_CREATE_AND_EDIT_SCREEN, {
+      isCreateTask: true,
+      headerTitle: 'Create Task',
+      buttonText: 'Create',
+    });
   };
 
   const goNoteCreateScreen = () => {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ArrowRightIcon, TickIcon, UnTickIcon } from '../../assets/images';
 import AppPressable from '../../components/AppPressable';
@@ -20,9 +20,9 @@ export const RenderTaskListItem: React.FC<TaskItemProps> = props => {
   } = useAppTheme();
   const styles = getStyle(theme);
 
-  const onPress_ = useCallback(() => {
+  const onPress_ = () => {
     onPressItem(item);
-  }, []);
+  };
 
   return (
     <View>

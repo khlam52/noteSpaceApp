@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  ListRenderItemInfo,
   SafeAreaView,
   SectionList,
   SectionListData,
-  SectionListRenderItem,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import AppFocusAwareStatusBar from '../../components/AppFocusAwareStatusBar';
 import { useAppTheme } from '../../hooks/useAppTheme';
+import { Route } from '../../navigation/Route';
 import StorageService from '../../services/StorageService';
 import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
@@ -18,32 +19,6 @@ import { RenderTaskListItem } from '../task/TaskListItemView';
 import { TaskItem, TaskSection } from '../task/TaskModel';
 
 export const TaskScreen = ({ navigation }: any) => {
-  const dummyTaskList = [
-    {
-      taskName: 'AAA',
-      isCompleted: true,
-      date: new Date(),
-      taskContent: 'sdfsdf',
-    },
-    {
-      taskName: 'BBB',
-      isCompleted: false,
-      date: new Date(),
-      taskContent: null,
-    },
-    {
-      taskName: 'DDD',
-      isCompleted: true,
-      date: new Date(),
-      taskContent: '123',
-    },
-    {
-      taskName: 'CCC',
-      isCompleted: false,
-      date: new Date(),
-      taskContent: null,
-    },
-  ];
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
@@ -52,7 +27,6 @@ export const TaskScreen = ({ navigation }: any) => {
   const [taskSectionList, setTaskSectionList] = useState<TaskSection[]>([]);
 
   useEffect(() => {
-    // StorageService.setTaskList(dummyTaskList);
     getTaskList();
   });
 
@@ -61,35 +35,38 @@ export const TaskScreen = ({ navigation }: any) => {
     setTaskSectionList(TaskHelper.getTaskSectionList(list));
   }, []);
 
-  const onPressTaskItem = useCallback((taskItem: TaskItem) => {
-    console.log('item:', taskItem);
-  }, []);
+  const onPressTaskItem = (taskItem: TaskItem) => {
+    navigation.navigate(Route.TASK_CREATE_AND_EDIT_SCREEN, {
+      taskItem: taskItem,
+      isCreateTask: false,
+      headerTitle: 'Task',
+      buttonText: 'Save',
+    });
+  };
 
-  const renderSectionHeader = useCallback(
-    ({ section }: { section: SectionListData<TaskItem, TaskSection> }) => {
-      if (section.title === null) {
-        return null;
-      }
+  const renderSectionHeader = ({
+    section,
+  }: {
+    section: SectionListData<TaskItem, TaskSection>;
+  }) => {
+    if (section.title === null) {
+      return null;
+    }
 
-      return (
-        <View>
-          <Text
-            style={styles.groupNameText}
-          >{`${section.title} - ${section.data.length}`}</Text>
-        </View>
-      );
-    },
-    [],
-  );
+    return (
+      <View>
+        <Text
+          style={styles.groupNameText}
+        >{`${section.title} - ${section.data.length}`}</Text>
+      </View>
+    );
+  };
 
-  const renderItem = useCallback<SectionListRenderItem<TaskItem, TaskSection>>(
-    ({ item }) => {
-      return <RenderTaskListItem item={item} onPressItem={onPressTaskItem} />;
-    },
-    [],
-  );
+  const renderItem = ({ item }: ListRenderItemInfo<TaskItem>) => {
+    return <RenderTaskListItem item={item} onPressItem={onPressTaskItem} />;
+  };
 
-  const renderListFooter = useCallback(() => {
+  const renderListFooter = () => {
     return (
       <View
         style={{
@@ -97,7 +74,7 @@ export const TaskScreen = ({ navigation }: any) => {
         }}
       />
     );
-  }, []);
+  };
 
   return (
     <SafeAreaView style={styles.container}>

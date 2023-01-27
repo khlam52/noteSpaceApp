@@ -3,6 +3,7 @@ export interface TaskItem {
   isCompleted: boolean;
   date: Date;
   taskContent: string | null;
+  uuid: string;
 }
 
 export interface TaskSection {

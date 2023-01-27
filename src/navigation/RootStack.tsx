@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -42,6 +42,7 @@ export const RootStack: React.FC = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer
+        theme={DarkTheme}
         ref={RootNavigation.navigationRef}
         onStateChange={RootNavigation.onStateChange}
         onReady={onReady}
