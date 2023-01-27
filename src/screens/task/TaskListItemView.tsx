@@ -6,6 +6,7 @@ import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
+import TaskHelper from '../../util/TaskHelper';
 import { TaskItem } from './TaskModel';
 
 interface TaskItemProps {
@@ -24,16 +25,28 @@ export const RenderTaskListItem: React.FC<TaskItemProps> = props => {
     onPressItem(item);
   };
 
+  const onTickIconPress = () => {
+    TaskHelper.editTask(
+      item.taskName,
+      item.taskContent ?? '',
+      !item.isCompleted,
+      item.uuid,
+    );
+  };
+
   return (
     <View>
       <AppSquircleButtonView style={styles.container} fillColor={'#424450'}>
         <AppPressable style={styles.itemView} onPress={onPress_}>
           <View style={styles.itemLeftView}>
-            {item.isCompleted ? (
-              <TickIcon width={sw(25)} height={sw(25)} />
-            ) : (
-              <UnTickIcon width={sw(25)} height={sw(25)} />
-            )}
+            <AppPressable onPress={onTickIconPress}>
+              {item.isCompleted ? (
+                <TickIcon width={sw(25)} height={sw(25)} />
+              ) : (
+                <UnTickIcon width={sw(25)} height={sw(25)} />
+              )}
+            </AppPressable>
+
             <Text style={styles.taskName}>{item?.taskName}</Text>
           </View>
 
