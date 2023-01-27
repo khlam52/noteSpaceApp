@@ -47,7 +47,7 @@ const RenderCreateItemView: React.FC<CreateItemProps> = props => {
   );
 };
 
-export const Tab2Screen = ({ navigation }: any) => {
+export const HomeScreen = ({ navigation }: any) => {
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();

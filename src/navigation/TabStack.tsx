@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Tab1Screen } from '../screens/tab/Tab1Screen';
-import { Tab2Screen } from '../screens/tab/Tab2Screen';
+import { TaskScreen } from '../screens/tab/TaskScreen';
+import { HomeScreen } from '../screens/tab/HomeScreen';
 import { Tab3Screen } from '../screens/tab/Tab3Screen';
 import { Route } from './Route';
 
@@ -14,22 +14,22 @@ export const TabStack: React.FC = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName={Route.TAB2_SCREEN}
+      initialRouteName={Route.HOME_SCREEN}
       backBehavior="initialRoute"
       screenOptions={{
         headerShown: false,
       }}
     >
       <Tab.Screen
-        name={Route.TAB1_SCREEN}
-        component={Tab1Screen}
+        name={Route.TASK_SCREEN}
+        component={TaskScreen}
         options={{
           tabBarLabel: tab1Title,
         }}
       />
       <Tab.Screen
-        name={Route.TAB2_SCREEN}
-        component={Tab2Screen}
+        name={Route.HOME_SCREEN}
+        component={HomeScreen}
         options={{
           tabBarLabel: tab2Title,
         }}
