@@ -1,29 +1,15 @@
-import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
-import { CameraIcon, PenIcon, PhotoIcon } from '../assets/images';
+import {
+  NoteContent,
+  NoteImageContent,
+  NoteTextContent,
+} from '../screens/note/NoteModel';
+import { sw } from '../styles/Mixins';
 
-export const BOTTOM_BTN_LIST = [
-  {
-    icon: <PhotoIcon />,
-    onPress: () => {
-      accessImagePickerFunc();
-    },
-  },
-  {
-    icon: <CameraIcon />,
-    onPress: () => {
-      accessCameraPickerFunc();
-    },
-  },
-  {
-    icon: <PenIcon />,
-    onPress: () => {
-      onPenIconPress();
-    },
-  },
-];
-
-const accessImagePickerFunc = () => {
+const accessImagePickerFunc = (
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+) => {
   ImagePicker.openPicker({
     width: 1000,
     height: 1000,
@@ -31,45 +17,83 @@ const accessImagePickerFunc = () => {
     freeStyleCropEnabled: true,
     multiple: false,
     includeBase64: true,
+    mediaType: 'photo',
   }).then(images => {
-    //   if (images) {
-    //     getNoteContentLayoutList = [
-    //       ...noteContentLayoutList,
-    //       {
-    //         type: 'IMAGE',
-    //         image: images,
-    //       },
-    //     ];
-    //     setNoteContentLayoutList(getNoteContentLayoutList);
-    //   }
+    if (images) {
+      console.log('contentLayoutList:', contentLayoutList);
+      console.log('images:', images);
+      let getNoteContentLayoutList = [
+        ...contentLayoutList,
+        {
+          type: 'IMAGE',
+          imgBase64: `data:${images.mime};base64,${images.data}`,
+        },
+      ];
+      updateContentLayoutList(getNoteContentLayoutList);
+    }
   });
 };
 
-const accessCameraPickerFunc = () => {
+const accessCameraPickerFunc = (
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+) => {
   ImagePicker.openCamera({
     width: 1000,
     height: 1000,
     cropping: true,
     freeStyleCropEnabled: true,
     includeBase64: true,
+    mediaType: 'photo',
   }).then(images => {
-    //   if (images) {
-    //     getNoteContentLayoutList = [
-    //       ...noteContentLayoutList,
-    //       {
-    //         type: 'IMAGE',
-    //         image: images,
-    //       },
-    //     ];
-    //     setNoteContentLayoutList(getNoteContentLayoutList);
-    //   }
+    if (images) {
+      let getNoteContentLayoutList = [
+        ...contentLayoutList,
+        {
+          type: 'IMAGE',
+          imgBase64: `data:${images.mime};base64,${images.data}`,
+        },
+      ];
+      updateContentLayoutList(getNoteContentLayoutList);
+    }
   });
 };
 
-const onPenIconPress = () => {};
+const onPenIconPress = (
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+) => {
+  let getNoteContentLayoutList = [
+    ...contentLayoutList,
+    {
+      type: 'TEXT',
+      value: '',
+      fontStyle: 'normal',
+      fontSizeOption: 'B',
+      fontSize: sw(18),
+      fontWeight: '300',
+      textDecorationLine: null,
+      align: 'left',
+      paddingLeft: sw(0),
+      paddingRight: sw(0),
+    },
+  ];
+  updateContentLayoutList(getNoteContentLayoutList);
+};
+
+const deletePhotoItem = (
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+  index: number,
+) => {
+  let newNoteContentLayoutList = [...contentLayoutList];
+  newNoteContentLayoutList.splice(index, 1);
+  updateContentLayoutList(newNoteContentLayoutList);
+};
 
 export default {
   accessImagePickerFunc,
   accessCameraPickerFunc,
   onPenIconPress,
+  deletePhotoItem,
 };

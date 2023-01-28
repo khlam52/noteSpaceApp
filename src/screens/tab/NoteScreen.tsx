@@ -73,9 +73,5 @@ const getStyle = (theme: any) => {
       marginBottom: sw(12),
       textAlign: 'center',
     },
-    tinyLogo: {
-      width: 50,
-      height: 50,
-    },
   });
 };

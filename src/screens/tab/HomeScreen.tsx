@@ -14,6 +14,7 @@ import AppPressable from '../../components/AppPressable';
 import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { AppConfig } from '../../config';
 import colors from '../../constants/colors';
+import { NOTE_CONTENT_TYPE } from '../../constants/Constants';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Route } from '../../navigation/Route';
 import { Typography } from '../../styles';
@@ -63,7 +64,34 @@ export const HomeScreen = ({ navigation }: any) => {
   };
 
   const goNoteCreateScreen = () => {
-    navigation.navigate(Route.NOTE_CREATE_AND_EDIT_SCREEN);
+    const dummyList = [
+      {
+        title: 'aaa',
+        date: new Date(),
+        content: [
+          {
+            type: NOTE_CONTENT_TYPE.TEXT,
+            value: 'Note Text',
+            fontStyle: 'italic',
+            fontSize: sw(20),
+            fontWeight: 'bold',
+            textDecorationLine: 'underline',
+            textAlign: 'center',
+            paddingLeft: sw(0),
+            paddingRight: sw(0),
+          },
+          {
+            type: NOTE_CONTENT_TYPE.IMAGE,
+            img: 'sdfdsf',
+          },
+        ],
+        uuid: '111',
+      },
+    ];
+    navigation.navigate(Route.NOTE_CREATE_AND_EDIT_SCREEN, {
+      noteItem: dummyList,
+      isCreateNote: true,
+    });
   };
 
   return (
