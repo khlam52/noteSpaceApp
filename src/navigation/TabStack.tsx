@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { TaskScreen } from '../screens/tab/TaskScreen';
 import { HomeScreen } from '../screens/tab/HomeScreen';
-import { Tab3Screen } from '../screens/tab/Tab3Screen';
+import { NoteScreen } from '../screens/tab/NoteScreen';
 import { Route } from './Route';
 
 const Tab = createBottomTabNavigator();
@@ -35,8 +35,8 @@ export const TabStack: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={Route.TAB3_SCREEN}
-        component={Tab3Screen}
+        name={Route.NOTE_SCREEN}
+        component={NoteScreen}
         options={{
           tabBarLabel: tab3Title,
         }}

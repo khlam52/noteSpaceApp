@@ -7,6 +7,10 @@ import ArrowRightIcon from './arrow-right-icon.svg';
 import BackIcon from './back-icon.svg';
 import DeleteIcon from './delete-icon.svg';
 import CloseIcon from './close-icon.svg';
+import FontIcon from './font-icon.svg';
+import PhotoIcon from './photo-icon.svg';
+import CameraIcon from './camera-icon.svg';
+import PenIcon from './pen-icon.svg';
 
 export {
   AddTaskIcon,
@@ -18,4 +22,8 @@ export {
   BackIcon,
   DeleteIcon,
   CloseIcon,
+  FontIcon,
+  PhotoIcon,
+  CameraIcon,
+  PenIcon,
 };

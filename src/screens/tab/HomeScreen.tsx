@@ -63,9 +63,7 @@ export const HomeScreen = ({ navigation }: any) => {
   };
 
   const goNoteCreateScreen = () => {
-    // navigation.navigate(Route.CREATE_AND_EDIT_NOTE_SCREEN, {
-    //   isCreateNote: true,
-    // });
+    navigation.navigate(Route.NOTE_CREATE_AND_EDIT_SCREEN);
   };
 
   return (

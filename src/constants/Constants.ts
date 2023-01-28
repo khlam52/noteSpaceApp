@@ -11,3 +11,8 @@ export const THEME_NAME = {
   DARK: 'DARK',
   LIGHT: 'LIGHT',
 };
+
+export const NOTE_CONTENT_TYPE = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+};
