@@ -8,7 +8,7 @@ export type TextAlign = 'left' | 'center' | 'right';
 
 export interface NoteTextContent {
   type: NoteContentType;
-  value: string | null;
+  value: string;
   fontStyle: FontStyle;
   fontSize: number;
   fontWeight: string | number;

@@ -19,7 +19,8 @@ import { sw } from '../../styles/Mixins';
 import CommonUtils from '../../util/CommonUtils';
 import NoteHelper from '../../util/NoteHelper';
 import { NoteImageContentView } from './NoteImageContentView';
-import { NoteContent, NoteImageContent } from './NoteModel';
+import { NoteContent, NoteImageContent, NoteTextContent } from './NoteModel';
+import { NoteTextInputContentView } from './NoteTextInputContentView';
 
 type Props = ScreenProp<Route.NOTE_CREATE_AND_EDIT_SCREEN>;
 
@@ -86,20 +87,19 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
   };
   ////
 
-  const renderTextInputContentView = () => {
-    return (
-      <View>
-        <Text>textinput</Text>
-      </View>
-    );
-  };
-
   const renderContentLayoutListView = () => {
     let contentViewList: any = [];
     contentLayoutList &&
       contentLayoutList?.map((item: NoteContent, index: number) => {
         if (item.type === NOTE_CONTENT_TYPE.TEXT) {
-          contentViewList.push(renderTextInputContentView());
+          contentViewList.push(
+            <NoteTextInputContentView
+              item={item as NoteTextContent}
+              index={index}
+              contentList={contentLayoutList}
+              updateContentList={updateContentLayoutList}
+            />,
+          );
         } else if (item.type === NOTE_CONTENT_TYPE.IMAGE) {
           contentViewList.push(
             <NoteImageContentView
@@ -111,7 +111,9 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
           );
         }
       });
-    return <View style={{ flex: 1 }}>{contentViewList}</View>;
+    return (
+      <View style={{ flex: 1, paddingBottom: sw(90) }}>{contentViewList}</View>
+    );
   };
 
   const renderBottomView = () => {
