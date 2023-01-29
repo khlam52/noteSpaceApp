@@ -39,8 +39,8 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
 
   const [title, setTitle] = useState<string>();
   const [date, setDate] = useState<Date>(new Date());
-
   const [contentLayoutList, setContentLayoutList] = useState<NoteContent[]>([]);
+  const [isShowFontIcon, setIsShowFontIcon] = useState<boolean>(false);
 
   const BOTTOM_BTN_LIST = [
     {
@@ -98,6 +98,7 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
               index={index}
               contentList={contentLayoutList}
               updateContentList={updateContentLayoutList}
+              setIsShowFontIcon={setIsShowFontIcon}
             />,
           );
         } else if (item.type === NOTE_CONTENT_TYPE.IMAGE) {
@@ -139,7 +140,7 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
           <BackIcon />
         </AppPressable>
         <View style={styles.headerRightcontainer}>
-          <FontIcon />
+          {isShowFontIcon && <FontIcon />}
           <Text style={styles.saveText}>Save</Text>
         </View>
       </View>

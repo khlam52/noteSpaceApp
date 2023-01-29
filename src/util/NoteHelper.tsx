@@ -91,9 +91,32 @@ const deletePhotoItem = (
   updateContentLayoutList(newNoteContentLayoutList);
 };
 
+const onChangeTextInputContent = (
+  val: string,
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+  index: number,
+) => {
+  let newNoteContentLayoutList = [...contentLayoutList];
+  (newNoteContentLayoutList[index] as NoteTextContent).value = val;
+  updateContentLayoutList(newNoteContentLayoutList);
+};
+
+const onBackspaceTextInputHandle = (
+  contentLayoutList: NoteContent[] | any,
+  updateContentLayoutList: (updatedList: NoteContent[]) => void,
+  index: number,
+) => {
+  let newNoteContentLayoutList = [...contentLayoutList];
+  newNoteContentLayoutList.splice(index, 1);
+  updateContentLayoutList(newNoteContentLayoutList);
+};
+
 export default {
   accessImagePickerFunc,
   accessCameraPickerFunc,
   onPenIconPress,
   deletePhotoItem,
+  onChangeTextInputContent,
+  onBackspaceTextInputHandle,
 };

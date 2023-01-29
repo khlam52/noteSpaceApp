@@ -1,7 +1,14 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import {
+  NativeSyntheticEvent,
+  StyleSheet,
+  TextInput,
+  TextInputKeyPressEventData,
+  View,
+} from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { sw } from '../../styles/Mixins';
+import NoteHelper from '../../util/NoteHelper';
 import { NoteContent, NoteTextContent } from './NoteModel';
 
 interface NoteImageItemProps {
@@ -9,47 +16,59 @@ interface NoteImageItemProps {
   updateContentList: (updatedList: NoteContent[]) => void;
   item: NoteTextContent;
   index: number;
+  setIsShowFontIcon: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const NoteTextInputContentView: React.FC<NoteImageItemProps> = props => {
-  const { item, index, contentList, updateContentList } = props;
+  const { item, index, contentList, updateContentList, setIsShowFontIcon } =
+    props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
   const styles = getStyle(theme);
 
-  const onChangeContent = (val: string, index: number) => {
-    let newNoteContentLayoutList = [...contentList];
-    (newNoteContentLayoutList[index] as NoteTextContent).value = val;
-    updateContentList(newNoteContentLayoutList);
+  const onKeyPress = ({
+    nativeEvent,
+  }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    if (nativeEvent.key === 'Backspace' && item.value === '') {
+      NoteHelper.onBackspaceTextInputHandle(
+        contentList,
+        updateContentList,
+        index,
+      );
+    }
+  };
+
+  const onChangeTextInputContent = (val: string) => {
+    NoteHelper.onChangeTextInputContent(
+      val,
+      contentList,
+      updateContentList,
+      index,
+    );
+  };
+
+  const onBlur = () => {
+    setIsShowFontIcon(false);
+  };
+
+  const onFocus = () => {
+    setIsShowFontIcon(true);
   };
 
   return (
     <View>
       <TextInput
-        onKeyPress={({ nativeEvent }) => {
-          if (nativeEvent.key === 'Backspace' && item.value === '') {
-            let newNoteContentLayoutList = [...contentList];
-            newNoteContentLayoutList.splice(index, 1);
-            updateContentList(newNoteContentLayoutList);
-          }
-        }}
+        onKeyPress={onKeyPress}
         key={index}
         value={item.value}
-        onChangeText={val => {
-          onChangeContent(val, index);
-        }}
+        onChangeText={onChangeTextInputContent}
         // style={getItemFontFormat(item, index)}
         multiline={true}
         placeholder={'Add text'}
         placeholderTextColor={'#B6B6B6'}
-        // onBlur={() => {
-        //   setIsShowFontIcon(false);
-        // }}
-        // onFocus={() => {
-        //   setIsShowFontIcon(true);
-        //   setEditingTextIndex(index);
-        // }}
+        onBlur={onBlur}
+        onFocus={onFocus}
       />
     </View>
   );
