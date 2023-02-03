@@ -24,7 +24,7 @@ async function setTaskList(taskList: TaskItem[]): Promise<void> {
 }
 
 async function getTaskList(): Promise<any> {
-  return DataPersister.getJson(StorageKey.DB_KEY_SAVED_TASK_LIST);
+  return DataPersister.getJson(StorageKey.DB_KEY_SAVED_TASK_LIST, []);
 }
 
 export default {

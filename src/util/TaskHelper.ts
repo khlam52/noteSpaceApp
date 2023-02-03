@@ -7,13 +7,15 @@ import _ from 'lodash';
 const getTaskSectionList = (taskList: TaskItem[]): TaskSection[] => {
   let completedList: TaskItem[] = [];
   let inProgressList: TaskItem[] = [];
-  taskList.forEach((item: TaskItem) => {
-    if (item.isCompleted) {
-      completedList.push(item);
-    } else {
-      inProgressList.push(item);
-    }
-  });
+  if (taskList) {
+    taskList.forEach((item: TaskItem) => {
+      if (item.isCompleted) {
+        completedList.push(item);
+      } else {
+        inProgressList.push(item);
+      }
+    });
+  }
 
   let taskSectionList = [
     {
@@ -32,7 +34,7 @@ const getTaskSectionList = (taskList: TaskItem[]): TaskSection[] => {
 
 const createTask = async (title: string, content: string) => {
   let currentList = await StorageService.getTaskList();
-  let newTaskList = [...currentList];
+  let newTaskList = currentList ? [...currentList] : [];
   let createTaskItem = {
     taskName: title,
     isCompleted: false,
@@ -41,7 +43,6 @@ const createTask = async (title: string, content: string) => {
     uuid: uuidv4(),
   };
   newTaskList.push(createTaskItem);
-  console.log('newTaskList:', newTaskList);
   StorageService.setTaskList(newTaskList);
 };
 
