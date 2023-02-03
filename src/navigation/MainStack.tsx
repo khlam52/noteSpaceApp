@@ -10,8 +10,9 @@ import { SignUpScreen } from '../screens/auth/SignUpScreen';
 import { TabStack } from './TabStack';
 import { TaskScreen } from '../screens/tab/TaskScreen';
 import { HomeScreen } from '../screens/tab/HomeScreen';
-import { Tab3Screen } from '../screens/tab/Tab3Screen';
+import { NoteScreen } from '../screens/tab/NoteScreen';
 import { TaskCreateAndEditScreen } from '../screens/task/TaskCreateAndEditScreen';
+import { NoteCreateAndEditScreen } from '../screens/note/NoteCreateAndEditScreen';
 
 const Stack = createStackNavigator<MainStackParams>();
 
@@ -19,8 +20,9 @@ const authScreens: any = {};
 authScreens[Route.TAB_STACK] = TabStack;
 authScreens[Route.TASK_SCREEN] = TaskScreen;
 authScreens[Route.HOME_SCREEN] = HomeScreen;
-authScreens[Route.TAB3_SCREEN] = Tab3Screen;
+authScreens[Route.NOTE_SCREEN] = NoteScreen;
 authScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
+authScreens[Route.NOTE_CREATE_AND_EDIT_SCREEN] = NoteCreateAndEditScreen;
 authScreens[Route.LOGIN_SCREEN] = LoginScreen;
 authScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
 

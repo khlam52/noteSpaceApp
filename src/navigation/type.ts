@@ -1,5 +1,6 @@
-import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { NoteItem } from '../screens/note/NoteModel';
 import { TaskItem } from '../screens/task/TaskModel';
 import { Route } from './Route';
 
@@ -31,6 +32,11 @@ type TaskCreateAndEditScreenParam = {
   buttonText: string;
 };
 
+type NoteCreateAndEditScreenParam = {
+  noteItem?: NoteItem | null;
+  isCreateNote: boolean;
+};
+
 export type MainStackParams = {
   List: undefined;
   TextDemo: undefined;
@@ -40,4 +46,5 @@ export type MainStackParams = {
   [Route.SIGN_UP_SCREEN]: undefined;
   [Route.TAB_STACK]: undefined;
   [Route.TASK_CREATE_AND_EDIT_SCREEN]: TaskCreateAndEditScreenParam;
+  [Route.NOTE_CREATE_AND_EDIT_SCREEN]: NoteCreateAndEditScreenParam;
 };
