@@ -11,6 +11,11 @@ import FontIcon from './font-icon.svg';
 import PhotoIcon from './photo-icon.svg';
 import CameraIcon from './camera-icon.svg';
 import PenIcon from './pen-icon.svg';
+import LeftAlignIcon from './left-align-icon.svg';
+import RightAlignIcon from './right-align-icon.svg';
+import CenterAlignIcon from './center-align-icon.svg';
+import LeftPaddingIcon from './left-padding-icon.svg';
+import RightPaddingIcon from './right-padding-icon.svg';
 
 export {
   AddTaskIcon,
@@ -26,4 +31,9 @@ export {
   PhotoIcon,
   CameraIcon,
   PenIcon,
+  LeftAlignIcon,
+  RightAlignIcon,
+  CenterAlignIcon,
+  LeftPaddingIcon,
+  RightPaddingIcon,
 };

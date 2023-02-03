@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -18,6 +19,7 @@ import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
 import CommonUtils from '../../util/CommonUtils';
 import NoteHelper from '../../util/NoteHelper';
+import { BottomFontFormatModalView } from './BottomFontFormatModalView';
 import { NoteImageContentView } from './NoteImageContentView';
 import { NoteContent, NoteImageContent, NoteTextContent } from './NoteModel';
 import { NoteTextInputContentView } from './NoteTextInputContentView';
@@ -41,6 +43,7 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
   const [date, setDate] = useState<Date>(new Date());
   const [contentLayoutList, setContentLayoutList] = useState<NoteContent[]>([]);
   const [isShowFontIcon, setIsShowFontIcon] = useState<boolean>(false);
+  const fontFormatModal = useRef<BottomSheetModal | null>(null);
 
   const BOTTOM_BTN_LIST = [
     {
@@ -75,6 +78,10 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
 
   const onBackIconPress = () => {
     navigation.goBack();
+  };
+
+  const onFontIconPress = () => {
+    fontFormatModal.current?.present();
   };
 
   // Note Handle
@@ -140,7 +147,11 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
           <BackIcon />
         </AppPressable>
         <View style={styles.headerRightcontainer}>
-          {isShowFontIcon && <FontIcon />}
+          {isShowFontIcon && (
+            <AppPressable onPress={onFontIconPress}>
+              <FontIcon />
+            </AppPressable>
+          )}
           <Text style={styles.saveText}>Save</Text>
         </View>
       </View>
@@ -161,6 +172,7 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
         {renderContentLayoutListView()}
       </KeyboardAwareScrollView>
       {renderBottomView()}
+      <BottomFontFormatModalView ref={fontFormatModal} />
     </SafeAreaView>
   );
 };
