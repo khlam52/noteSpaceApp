@@ -6,13 +6,13 @@ module.exports = {
     },
   },
   retainLines: true,
-  plugins: [
-    [
-      'babel-plugin-root-import',
-      {
-        rootPathPrefix: '~src/',
-        rootPathSuffix: 'src',
-      },
-    ],
-  ],
+  plugins: ['react-native-reanimated/plugin'],
 };
+
+// [
+//   'babel-plugin-root-import',
+//   {
+//     rootPathPrefix: '~src/',
+//     rootPathSuffix: 'src',
+//   },
+// ],

@@ -1,3 +1,6 @@
+import { SvgProps } from 'react-native-svg';
+import { StringLiteral } from 'typescript';
+
 export type NoteContentType = 'TEXT' | 'IMAGE';
 
 export type FontStyle = 'italic' | 'normal';
@@ -30,4 +33,34 @@ export interface NoteItem {
   date: Date;
   content: NoteContent[];
   uuid: string;
+}
+
+export interface FontSizeItem {
+  option: string;
+  title: string;
+  size: number;
+  style: any;
+}
+
+export interface FontStyleItem {
+  title: string;
+  style: string;
+}
+
+export interface FontAlignItem {
+  icon: React.FC<SvgProps>;
+  style: string;
+}
+
+export interface FontPaddingItem {
+  title: string;
+  icon: React.FC<SvgProps>;
+  style: number;
+}
+
+export interface FontFormatStyle {
+  fontSizeOption: string | null;
+  fontWeight: string | null;
+  fontStyle: string | null;
+  textDecorationLine: string | null;
 }
