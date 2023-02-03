@@ -199,7 +199,7 @@ const getStyle = (theme: any) => {
     dateText: {
       ...Typography.ts(theme.fonts.weight.regular, sw(16)),
       color: '#B6B6B6',
-      marginTop: sw(24),
+      marginVertical: sw(24),
     },
     bottomBtnView: {
       flexDirection: 'row',
