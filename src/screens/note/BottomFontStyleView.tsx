@@ -1,34 +1,42 @@
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleProp, StyleSheet, Text, View } from 'react-native';
 import AppPressable from '../../components/AppPressable';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { sw } from '../../styles/Mixins';
-import { FontFormatStyle, FontStyleItem } from './NoteModel';
+import { FontFormatStyle, FontStyleItem, NoteTextContent } from './NoteModel';
 
 interface Props {
-  selectedFontStyle: string;
-  setSelectedFontStyle: (size: string) => void;
+  contentLayoutItem: NoteTextContent;
+  updateFontStyle: (
+    styleItem: FontStyleItem,
+    b: boolean,
+    i: boolean,
+    u: boolean,
+    s: boolean,
+  ) => void;
 }
 
 export const BottomFontStyleView: React.FC<Props> = props => {
-  const { selectedFontStyle, setSelectedFontStyle } = props;
+  const { contentLayoutItem, updateFontStyle } = props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
   const styles = getStyle(theme);
 
-  const [isSelectedBold, setIsSelectedBold] = useState(
-    selectedFontStyle === 'B' ?? false,
+  const isSelectedBoldRef = useRef<boolean>(
+    contentLayoutItem?.fontWeight === '900' ?? false,
   );
-  const [isSelectedItalic, setIsSelectedItalic] = useState(
-    selectedFontStyle === 'I' ?? false,
+  const isSelectedItalicRef = useRef<boolean>(
+    contentLayoutItem?.fontStyle === 'italic' ?? false,
   );
-  const [isSelectedUnderline, setIsSelectedUnderline] = useState(
-    selectedFontStyle === 'U' ?? false,
+  const isSelectedUnderlineRef = useRef<boolean>(
+    String(contentLayoutItem?.textDecorationLine).includes('underline') ??
+      false,
   );
-  const [isSelectedLineThrough, setIsSelectedLineThrough] = useState(
-    selectedFontStyle === 'S' ?? false,
+  const isSelectedLineThroughRef = useRef<boolean>(
+    String(contentLayoutItem?.textDecorationLine).includes('line-through') ??
+      false,
   );
 
   const fontStyleList = [
@@ -50,19 +58,26 @@ export const BottomFontStyleView: React.FC<Props> = props => {
     },
   ];
 
-  const updateFontStyleSeletion = (title: string) => {
-    if (title === 'B') {
-      setIsSelectedBold(!isSelectedBold);
+  const updateFontStyleSeletion = (item: FontStyleItem) => {
+    if (item.title === 'B') {
+      isSelectedBoldRef.current = !isSelectedBoldRef.current;
     }
-    if (title === 'I') {
-      setIsSelectedItalic(!isSelectedItalic);
+    if (item.title === 'I') {
+      isSelectedItalicRef.current = !isSelectedItalicRef.current;
     }
-    if (title === 'U') {
-      setIsSelectedUnderline(!isSelectedUnderline);
+    if (item.title === 'U') {
+      isSelectedUnderlineRef.current = !isSelectedUnderlineRef.current;
     }
-    if (title === 'S') {
-      setIsSelectedLineThrough(!isSelectedLineThrough);
+    if (item.title === 'S') {
+      isSelectedLineThroughRef.current = !isSelectedLineThroughRef.current;
     }
+    updateFontStyle(
+      item,
+      isSelectedBoldRef.current,
+      isSelectedItalicRef.current,
+      isSelectedUnderlineRef.current,
+      isSelectedLineThroughRef.current,
+    );
   };
 
   const checkFontStyleViewStyle: StyleProp<any> = (
@@ -72,10 +87,10 @@ export const BottomFontStyleView: React.FC<Props> = props => {
     return {
       ...styles.fontStyleItem,
       backgroundColor:
-        (isSelectedBold && item.title === 'B') ||
-        (isSelectedItalic && item.title === 'I') ||
-        (isSelectedUnderline && item.title === 'U') ||
-        (isSelectedLineThrough && item.title === 'S')
+        (isSelectedBoldRef.current && item.title === 'B') ||
+        (isSelectedItalicRef.current && item.title === 'I') ||
+        (isSelectedUnderlineRef.current && item.title === 'U') ||
+        (isSelectedLineThroughRef.current && item.title === 'S')
           ? '#424450'
           : '#252525',
       borderTopLeftRadius: index === 0 ? sw(12) : null,
@@ -103,7 +118,7 @@ export const BottomFontStyleView: React.FC<Props> = props => {
           <AppPressable
             key={item.title}
             onPress={() => {
-              updateFontStyleSeletion(item.title);
+              updateFontStyleSeletion(item);
             }}
           >
             <View style={checkFontStyleViewStyle(item, index)}>

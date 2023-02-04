@@ -4,7 +4,11 @@ export type NoteContentType = 'TEXT' | 'IMAGE';
 
 export type FontStyle = 'italic' | 'normal';
 
-export type TextDecorationLine = 'none' | 'underline' | 'line-through';
+export type TextDecorationLine =
+  | 'none'
+  | 'underline'
+  | 'line-through'
+  | 'underline line-through';
 
 export type TextAlign = 'left' | 'center' | 'right';
 

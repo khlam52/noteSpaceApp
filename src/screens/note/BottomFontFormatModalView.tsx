@@ -21,6 +21,7 @@ import { BottomFontStyleView } from './BottomFontStyleView';
 import { BottomPaddingView } from './BottomPaddingView';
 import {
   FontSizeItem,
+  FontStyleItem,
   NoteContent,
   NoteTextContent,
   TextAlign,
@@ -118,6 +119,51 @@ export const BottomFontFormatModalView = React.forwardRef<
     }
   };
 
+  const updateFontStyle = (
+    styleItem: FontStyleItem,
+    b: boolean, // bold
+    i: boolean, // italic
+    u: boolean, // underline
+    s: boolean, // line-through
+  ) => {
+    if (contentLayoutList) {
+      let newContentLayoutList = [...contentLayoutList];
+      let edittingContent = newContentLayoutList[
+        editingTextIndex
+      ] as NoteTextContent;
+
+      // Bold
+      if (b) {
+        edittingContent.fontWeight = '900';
+      } else if (edittingContent.fontSizeOption === 'H') {
+        edittingContent.fontWeight = '600';
+      } else if (edittingContent.fontSizeOption === 'S') {
+        edittingContent.fontWeight = '400';
+      } else {
+        edittingContent.fontWeight = '300';
+      }
+
+      // Italic
+      if (i) {
+        edittingContent.fontStyle = 'italic';
+      } else {
+        edittingContent.fontStyle = 'normal';
+      }
+
+      // Line
+      if (u && s) {
+        edittingContent.textDecorationLine = 'underline line-through';
+      } else if (u) {
+        edittingContent.textDecorationLine = 'underline';
+      } else if (s) {
+        edittingContent.textDecorationLine = 'line-through';
+      } else {
+        edittingContent.textDecorationLine = 'none';
+      }
+      updateContentLayoutList(newContentLayoutList);
+    }
+  };
+
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal
@@ -142,8 +188,10 @@ export const BottomFontFormatModalView = React.forwardRef<
             updateFontSize={updateFontSize}
           />
           <BottomFontStyleView
-            selectedFontStyle={selectedFontStyle}
-            setSelectedFontStyle={setSelectedFontStyle}
+            contentLayoutItem={
+              contentLayoutList[editingTextIndex] as NoteTextContent
+            }
+            updateFontStyle={updateFontStyle}
           />
           <View style={styles.alignAndPaddingView}>
             <BottomAlignView
