@@ -10,7 +10,7 @@ export type TextDecorationLine =
   | 'line-through'
   | 'underline line-through';
 
-export type TextAlign = 'left' | 'center' | 'right';
+export type TextAlign = 'left' | 'center' | 'right' | 'auto';
 
 export interface NoteTextContent {
   type: NoteContentType;
@@ -22,7 +22,7 @@ export interface NoteTextContent {
   textDecorationLine: TextDecorationLine;
   align: TextAlign;
   paddingLeft: number;
-  paddginRight: number;
+  paddingRight: number;
 }
 
 export interface NoteImageContent {

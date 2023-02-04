@@ -60,7 +60,6 @@ const CustomBackdrop: React.FC<BottomSheetBackdropProps> = props => {
 };
 
 interface Props {
-  selectedFontFormatCallback: NoteTextContent;
   editingTextIndex: number;
   contentLayoutList: NoteContent[];
   updateContentLayoutList: (list: NoteContent[]) => void;
@@ -76,30 +75,8 @@ export const BottomFontFormatModalView = React.forwardRef<
   const styles = getStyle(theme);
   const snapPoints = useMemo(() => ['40%'], []);
 
-  const {
-    selectedFontFormatCallback,
-    editingTextIndex,
-    contentLayoutList,
-    updateContentLayoutList,
-  } = props;
-
-  const [selectedFontSize, setSelectedFontSize] = useState<string>('');
-  const [selectedFontStyle, setSelectedFontStyle] = useState<string>('');
-  const [selectedAlignStyle, setSeletedAlignStyle] =
-    useState<TextAlign>('left');
-  const [selectedPaddingRight, setSelectedPaddingRight] = useState<number>(0);
-  const [selectedPaddingLeft, setSelectedPaddingLeft] = useState<number>(0);
-
-  //First Task
-  const getSelectedFontFunc = () => {
-    if (selectedFontFormatCallback) {
-      setSelectedFontSize(selectedFontFormatCallback.fontSizeOption);
-      setSelectedFontStyle(selectedFontFormatCallback.fontStyle);
-      setSeletedAlignStyle(selectedFontFormatCallback.align);
-      setSelectedPaddingRight(selectedFontFormatCallback.paddginRight);
-      setSelectedPaddingLeft(selectedFontFormatCallback.paddingLeft);
-    }
-  };
+  const { editingTextIndex, contentLayoutList, updateContentLayoutList } =
+    props;
 
   const updateFontSize = (sizeItem: FontSizeItem) => {
     if (contentLayoutList) {
@@ -166,6 +143,26 @@ export const BottomFontFormatModalView = React.forwardRef<
         editingTextIndex
       ] as NoteTextContent;
       edittingContent.align = align;
+      edittingContent.paddingLeft = 0;
+      edittingContent.paddingRight = 0;
+      updateContentLayoutList(newContentLayoutList);
+    }
+  };
+
+  const updateFontPadding = (padding: string) => {
+    if (contentLayoutList) {
+      let newContentLayoutList = [...contentLayoutList];
+      let edittingContent = newContentLayoutList[
+        editingTextIndex
+      ] as NoteTextContent;
+
+      if (padding === 'right') {
+        edittingContent.paddingRight = edittingContent.paddingRight + sw(20);
+        edittingContent.paddingLeft = edittingContent.paddingLeft - sw(20);
+      } else {
+        edittingContent.paddingLeft = edittingContent.paddingLeft + sw(20);
+        edittingContent.paddingRight = edittingContent.paddingRight - sw(20);
+      }
       updateContentLayoutList(newContentLayoutList);
     }
   };
@@ -208,11 +205,11 @@ export const BottomFontFormatModalView = React.forwardRef<
               updateFontAlign={updateFontAlign}
             />
             <BottomPaddingView
-              selectedAlignStyle={selectedAlignStyle}
-              selectedPaddingRight={selectedPaddingRight}
-              setSelectedPaddingRight={setSelectedPaddingRight}
-              selectedPaddingLeft={selectedPaddingLeft}
-              setSelectedPaddingLeft={setSelectedPaddingLeft}
+              selectedAlignStyle={
+                (contentLayoutList[editingTextIndex] as NoteTextContent)
+                  ?.align ?? 'left'
+              }
+              updateFontPadding={updateFontPadding}
             />
           </View>
         </View>

@@ -74,7 +74,7 @@ export const NoteTextInputContentView: React.FC<NoteImageItemProps> = props => {
       textDecorationLine: item.textDecorationLine,
       textAlign: item.align,
       paddingLeft: item.paddingLeft,
-      paddingRight: item.paddginRight,
+      paddingRight: item.paddingRight,
     };
   };
 

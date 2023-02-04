@@ -177,9 +177,6 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
       {renderBottomView()}
       <BottomFontFormatModalView
         ref={fontFormatModal}
-        selectedFontFormatCallback={
-          contentLayoutList[editingTextIndex] as NoteTextContent
-        }
         editingTextIndex={editingTextIndex}
         contentLayoutList={contentLayoutList}
         updateContentLayoutList={updateContentLayoutList}
