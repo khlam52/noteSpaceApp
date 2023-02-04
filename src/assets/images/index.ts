@@ -16,6 +16,7 @@ import RightAlignIcon from './right-align-icon.svg';
 import CenterAlignIcon from './center-align-icon.svg';
 import LeftPaddingIcon from './left-padding-icon.svg';
 import RightPaddingIcon from './right-padding-icon.svg';
+import NoNoteIcon from './no-note-icon.svg';
 
 export {
   AddTaskIcon,
@@ -36,4 +37,5 @@ export {
   CenterAlignIcon,
   LeftPaddingIcon,
   RightPaddingIcon,
+  NoNoteIcon,
 };

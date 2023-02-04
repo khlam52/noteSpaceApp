@@ -40,13 +40,13 @@ const setJson = async (key: string, jsonObj: any) => {
   }
 };
 
-const getJson = async <T>(key: string): Promise<T | null> => {
+const getJson = async <T>(key: string, emptyJson: any[]): Promise<T | any> => {
   try {
     const jsonString = await AsyncStorage.getItem(key);
     if (jsonString) {
       return JSON.parse(jsonString);
     }
-    return null;
+    return emptyJson;
   } catch (error) {
     console.error('DataPersister -> getJson -> error:', error);
     return null;

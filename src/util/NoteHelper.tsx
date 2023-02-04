@@ -1,10 +1,46 @@
 import ImagePicker from 'react-native-image-crop-picker';
 import {
   NoteContent,
-  NoteImageContent,
+  NoteItem,
   NoteTextContent,
 } from '../screens/note/NoteModel';
+import StorageService from '../services/StorageService';
 import { sw } from '../styles/Mixins';
+import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
+
+const getNoteFlatListWithIndex = (
+  noteList: NoteItem[],
+  isOddIndex: boolean = true,
+) => {
+  let flatList: NoteItem[] = [];
+  if (noteList) {
+    if (isOddIndex) {
+      flatList = noteList.filter(function (v, i) {
+        return !(i % 2);
+      });
+    } else {
+      flatList = noteList.filter(function (v, i) {
+        return i % 2;
+      });
+    }
+  }
+  console.log('flatList:', flatList);
+  return flatList;
+};
+
+const createNote = async (title: string, content: NoteContent[]) => {
+  let currentList = await StorageService.getNoteList();
+  let newNoteList = currentList ? [...currentList] : [];
+  let createNoteItem = {
+    title: title,
+    date: new Date(),
+    content: content,
+    uuid: uuidv4(),
+  };
+  newNoteList.push(createNoteItem);
+  StorageService.setNoteList(newNoteList);
+};
 
 const accessImagePickerFunc = (
   contentLayoutList: NoteContent[] | any,
@@ -113,6 +149,8 @@ const onBackspaceTextInputHandle = (
 };
 
 export default {
+  getNoteFlatListWithIndex,
+  createNote,
   accessImagePickerFunc,
   accessCameraPickerFunc,
   onPenIconPress,

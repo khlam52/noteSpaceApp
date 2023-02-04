@@ -86,6 +86,11 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
     fontFormatModal.current?.present();
   };
 
+  const onSavePress = () => {
+    NoteHelper.createNote(title ?? '', contentLayoutList ?? []);
+    navigation.goBack();
+  };
+
   // Note Handle
   const onChangeTitle = (val: string | undefined) => {
     setTitle(val);
@@ -155,7 +160,13 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
               <FontIcon />
             </AppPressable>
           )}
-          <Text style={styles.saveText}>Save</Text>
+          <AppPressable
+            onPress={onSavePress}
+            disabled={!title}
+            hvDisabledStyle={!title}
+          >
+            <Text style={styles.saveText}>Save</Text>
+          </AppPressable>
         </View>
       </View>
       <KeyboardAwareScrollView

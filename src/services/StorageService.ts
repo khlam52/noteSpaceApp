@@ -1,3 +1,4 @@
+import { NoteItem } from '../screens/note/NoteModel';
 import { TaskItem } from '../screens/task/TaskModel';
 import DataPersister from '../util/DataPersister';
 
@@ -7,6 +8,7 @@ const enum StorageKey {
   DB_KEY_SAVED_IS_FIRST_LAUNCH = '@isFirstLaunch',
   DB_KEY_SAVED_IS_LOGGED_IN = '@isLoggedIn',
   DB_KEY_SAVED_TASK_LIST = '@taskList',
+  DB_KEY_SAVED_NOTE_LIST = '@noteList',
 }
 
 // Locale i18n
@@ -27,9 +29,20 @@ async function getTaskList(): Promise<any> {
   return DataPersister.getJson(StorageKey.DB_KEY_SAVED_TASK_LIST, []);
 }
 
+// Note
+async function setNoteList(noteList: NoteItem[]): Promise<void> {
+  return DataPersister.setJson(StorageKey.DB_KEY_SAVED_NOTE_LIST, noteList);
+}
+
+async function getNoteList(): Promise<any> {
+  return DataPersister.getJson(StorageKey.DB_KEY_SAVED_NOTE_LIST, []);
+}
+
 export default {
   setLocale,
   getLocale,
   setTaskList,
   getTaskList,
+  setNoteList,
+  getNoteList,
 };
