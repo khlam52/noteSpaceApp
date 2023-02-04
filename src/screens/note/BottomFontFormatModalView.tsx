@@ -90,11 +90,6 @@ export const BottomFontFormatModalView = React.forwardRef<
   const [selectedPaddingRight, setSelectedPaddingRight] = useState<number>(0);
   const [selectedPaddingLeft, setSelectedPaddingLeft] = useState<number>(0);
 
-  useEffect(() => {
-    console.log('selectedFontFormatCallback:', selectedFontFormatCallback);
-    getSelectedFontFunc();
-  }, []);
-
   //First Task
   const getSelectedFontFunc = () => {
     if (selectedFontFormatCallback) {
@@ -164,6 +159,17 @@ export const BottomFontFormatModalView = React.forwardRef<
     }
   };
 
+  const updateFontAlign = (align: TextAlign) => {
+    if (contentLayoutList) {
+      let newContentLayoutList = [...contentLayoutList];
+      let edittingContent = newContentLayoutList[
+        editingTextIndex
+      ] as NoteTextContent;
+      edittingContent.align = align;
+      updateContentLayoutList(newContentLayoutList);
+    }
+  };
+
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal
@@ -195,8 +201,11 @@ export const BottomFontFormatModalView = React.forwardRef<
           />
           <View style={styles.alignAndPaddingView}>
             <BottomAlignView
-              selectedAlignStyle={selectedAlignStyle}
-              setSeletedAlignStyle={setSeletedAlignStyle}
+              selectedAlignStyle={
+                (contentLayoutList[editingTextIndex] as NoteTextContent)
+                  ?.align ?? 'left'
+              }
+              updateFontAlign={updateFontAlign}
             />
             <BottomPaddingView
               selectedAlignStyle={selectedAlignStyle}

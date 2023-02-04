@@ -12,11 +12,11 @@ import { FontAlignItem, TextAlign } from './NoteModel';
 
 interface Props {
   selectedAlignStyle: TextAlign;
-  setSeletedAlignStyle: (align: TextAlign) => void;
+  updateFontAlign: (align: TextAlign) => void;
 }
 
 export const BottomAlignView: React.FC<Props> = props => {
-  const { selectedAlignStyle, setSeletedAlignStyle } = props;
+  const { selectedAlignStyle, updateFontAlign } = props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
@@ -60,7 +60,7 @@ export const BottomAlignView: React.FC<Props> = props => {
           <AppPressable
             key={item.style}
             onPress={() => {
-              setSeletedAlignStyle(item.style);
+              updateFontAlign(item.style);
             }}
           >
             <View style={checkAlignViewStyle(item, index)}>{item.icon}</View>
