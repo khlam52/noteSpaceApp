@@ -1,5 +1,4 @@
 import { SvgProps } from 'react-native-svg';
-import { StringLiteral } from 'typescript';
 
 export type NoteContentType = 'TEXT' | 'IMAGE';
 
@@ -12,13 +11,14 @@ export type TextAlign = 'left' | 'center' | 'right';
 export interface NoteTextContent {
   type: NoteContentType;
   value: string;
-  fontStyle: FontStyle;
+  fontStyle: string;
+  fontSizeOption: string;
   fontSize: number;
   fontWeight: string | number;
   textDecorationLine: TextDecorationLine;
-  textAlign: TextAlign;
-  paddingLeft: number | null;
-  paddginRight: number | null;
+  align: TextAlign;
+  paddingLeft: number;
+  paddginRight: number;
 }
 
 export interface NoteImageContent {
@@ -40,6 +40,7 @@ export interface FontSizeItem {
   title: string;
   size: number;
   style: any;
+  weight: string;
 }
 
 export interface FontStyleItem {
@@ -49,7 +50,7 @@ export interface FontStyleItem {
 
 export interface FontAlignItem {
   icon: React.FC<SvgProps>;
-  style: string;
+  style: TextAlign;
 }
 
 export interface FontPaddingItem {
@@ -62,5 +63,8 @@ export interface FontFormatStyle {
   fontSizeOption: string | null;
   fontWeight: string | null;
   fontStyle: string | null;
-  textDecorationLine: string | null;
+  textDecorationLine: TextDecorationLine;
+  align: TextAlign;
+  paddingRight: number;
+  paddingLeft: number;
 }

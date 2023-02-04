@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   NativeSyntheticEvent,
+  StyleProp,
   StyleSheet,
   TextInput,
   TextInputKeyPressEventData,
@@ -17,11 +18,18 @@ interface NoteImageItemProps {
   item: NoteTextContent;
   index: number;
   setIsShowFontIcon: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditingTextIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const NoteTextInputContentView: React.FC<NoteImageItemProps> = props => {
-  const { item, index, contentList, updateContentList, setIsShowFontIcon } =
-    props;
+  const {
+    item,
+    index,
+    contentList,
+    updateContentList,
+    setIsShowFontIcon,
+    setEditingTextIndex,
+  } = props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
@@ -54,6 +62,20 @@ export const NoteTextInputContentView: React.FC<NoteImageItemProps> = props => {
 
   const onFocus = () => {
     setIsShowFontIcon(true);
+    setEditingTextIndex(index);
+  };
+
+  const getItemFontFormat: StyleProp<any> = (item: NoteTextContent) => {
+    return {
+      color: '#FFF',
+      fontStyle: item.fontStyle,
+      fontSize: item.fontSize,
+      fontWeight: item.fontWeight,
+      textDecorationLine: item.textDecorationLine,
+      textAlign: item.align,
+      paddingLeft: item.paddingLeft,
+      paddingRight: item.paddginRight,
+    };
   };
 
   return (
@@ -63,7 +85,7 @@ export const NoteTextInputContentView: React.FC<NoteImageItemProps> = props => {
         key={index}
         value={item.value}
         onChangeText={onChangeTextInputContent}
-        // style={getItemFontFormat(item, index)}
+        style={getItemFontFormat(item)}
         multiline={true}
         placeholder={'Add text'}
         placeholderTextColor={'#B6B6B6'}

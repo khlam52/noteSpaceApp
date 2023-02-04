@@ -16,11 +16,11 @@ import { FontSizeItem } from './NoteModel';
 
 interface Props {
   selectedFontSize: string;
-  setSelectedFontSize: (size: string) => void;
+  updateFontSize: (sizeItem: FontSizeItem) => void;
 }
 
 export const BottomFontSizeView: React.FC<Props> = props => {
-  const { selectedFontSize, setSelectedFontSize } = props;
+  const { selectedFontSize, updateFontSize } = props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
@@ -32,24 +32,28 @@ export const BottomFontSizeView: React.FC<Props> = props => {
       title: 'Title',
       size: sw(28),
       style: theme.fonts.weight.bold,
+      weight: '900',
     },
     {
       option: 'H',
       title: 'Heading',
       size: sw(24),
       style: theme.fonts.weight.bold,
+      weight: '600',
     },
     {
       option: 'S',
       title: 'Subheading',
       size: sw(18),
       style: theme.fonts.weight.regular,
+      weight: '400',
     },
     {
       option: 'B',
       title: 'Body',
       size: sw(16),
       style: theme.fonts.weight.light,
+      weight: '300',
     },
   ];
 
@@ -77,7 +81,7 @@ export const BottomFontSizeView: React.FC<Props> = props => {
           <AppPressable
             style={checkfontSizeViewStyle(item)}
             onPress={() => {
-              setSelectedFontSize(item.option);
+              updateFontSize(item);
             }}
           >
             <Text style={fontSizeStyle(item.style, item.size)}>

@@ -5,7 +5,8 @@ import {
   useBottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import React, { useMemo, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Extrapolate,
@@ -18,6 +19,12 @@ import { BottomAlignView } from './BottomAlignView';
 import { BottomFontSizeView } from './BottomFontSizeView';
 import { BottomFontStyleView } from './BottomFontStyleView';
 import { BottomPaddingView } from './BottomPaddingView';
+import {
+  FontSizeItem,
+  NoteContent,
+  NoteTextContent,
+  TextAlign,
+} from './NoteModel';
 
 const CustomBackdrop: React.FC<BottomSheetBackdropProps> = props => {
   const { animatedIndex, style } = props;
@@ -51,65 +58,111 @@ const CustomBackdrop: React.FC<BottomSheetBackdropProps> = props => {
   );
 };
 
-interface Props {}
+interface Props {
+  selectedFontFormatCallback: NoteTextContent;
+  editingTextIndex: number;
+  contentLayoutList: NoteContent[];
+  updateContentLayoutList: (list: NoteContent[]) => void;
+}
 
-export const BottomFontFormatModalView = React.forwardRef<BottomSheetModal>(
-  (props, ref) => {
-    const {
-      themeSwitched: { settings: theme, name: themeName },
-    } = useAppTheme();
-    const styles = getStyle(theme);
-    const snapPoints = useMemo(() => ['40%'], []);
+export const BottomFontFormatModalView = React.forwardRef<
+  BottomSheetModal,
+  Props
+>((props, ref) => {
+  const {
+    themeSwitched: { settings: theme, name: themeName },
+  } = useAppTheme();
+  const styles = getStyle(theme);
+  const snapPoints = useMemo(() => ['40%'], []);
 
-    const [selectedFontSize, setSelectedFontSize] = useState('T');
-    const [selectedFontStyle, setSelectedFontStyle] = useState('Normal');
-    const [selectedAlignStyle, setSeletedAlignStyle] = useState('left');
-    const [selectedPaddingRight, setSelectedPaddingRight] = useState(sw(0));
-    const [selectedPaddingLeft, setSelectedPaddingLeft] = useState(sw(0));
+  const {
+    selectedFontFormatCallback,
+    editingTextIndex,
+    contentLayoutList,
+    updateContentLayoutList,
+  } = props;
 
-    return (
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={ref}
-          index={0}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          enableDismissOnClose={true}
-          backdropComponent={CustomBackdrop}
-          handleHeight={sw(40)}
-          style={styles.modal}
-          handleIndicatorStyle={styles.modalIndicator}
-          handleStyle={styles.handleStyle}
-          backgroundStyle={{ backgroundColor: '#161616' }}
-        >
-          <View style={styles.container}>
-            <BottomFontSizeView
-              selectedFontSize={selectedFontSize}
-              setSelectedFontSize={setSelectedFontSize}
+  const [selectedFontSize, setSelectedFontSize] = useState<string>('');
+  const [selectedFontStyle, setSelectedFontStyle] = useState<string>('');
+  const [selectedAlignStyle, setSeletedAlignStyle] =
+    useState<TextAlign>('left');
+  const [selectedPaddingRight, setSelectedPaddingRight] = useState<number>(0);
+  const [selectedPaddingLeft, setSelectedPaddingLeft] = useState<number>(0);
+
+  useEffect(() => {
+    console.log('selectedFontFormatCallback:', selectedFontFormatCallback);
+    getSelectedFontFunc();
+  }, []);
+
+  //First Task
+  const getSelectedFontFunc = () => {
+    if (selectedFontFormatCallback) {
+      setSelectedFontSize(selectedFontFormatCallback.fontSizeOption);
+      setSelectedFontStyle(selectedFontFormatCallback.fontStyle);
+      setSeletedAlignStyle(selectedFontFormatCallback.align);
+      setSelectedPaddingRight(selectedFontFormatCallback.paddginRight);
+      setSelectedPaddingLeft(selectedFontFormatCallback.paddingLeft);
+    }
+  };
+
+  const updateFontSize = (sizeItem: FontSizeItem) => {
+    if (contentLayoutList) {
+      let newContentLayoutList = [...contentLayoutList];
+      let edittingContent = newContentLayoutList[
+        editingTextIndex
+      ] as NoteTextContent;
+      edittingContent.fontSizeOption = sizeItem.option;
+      edittingContent.fontSize = sizeItem.size;
+      edittingContent.fontWeight = sizeItem.weight;
+      updateContentLayoutList(newContentLayoutList);
+    }
+  };
+
+  return (
+    <BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={ref}
+        index={0}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        enableDismissOnClose={true}
+        backdropComponent={CustomBackdrop}
+        handleHeight={sw(40)}
+        style={styles.modal}
+        handleIndicatorStyle={styles.modalIndicator}
+        handleStyle={styles.handleStyle}
+        backgroundStyle={{ backgroundColor: '#161616' }}
+      >
+        <View style={styles.container}>
+          <BottomFontSizeView
+            selectedFontSize={
+              (contentLayoutList[editingTextIndex] as NoteTextContent)
+                ?.fontSizeOption ?? 'B'
+            }
+            updateFontSize={updateFontSize}
+          />
+          <BottomFontStyleView
+            selectedFontStyle={selectedFontStyle}
+            setSelectedFontStyle={setSelectedFontStyle}
+          />
+          <View style={styles.alignAndPaddingView}>
+            <BottomAlignView
+              selectedAlignStyle={selectedAlignStyle}
+              setSeletedAlignStyle={setSeletedAlignStyle}
             />
-            <BottomFontStyleView
-              selectedFontStyle={selectedFontStyle}
-              setSelectedFontStyle={setSelectedFontStyle}
+            <BottomPaddingView
+              selectedAlignStyle={selectedAlignStyle}
+              selectedPaddingRight={selectedPaddingRight}
+              setSelectedPaddingRight={setSelectedPaddingRight}
+              selectedPaddingLeft={selectedPaddingLeft}
+              setSelectedPaddingLeft={setSelectedPaddingLeft}
             />
-            <View style={styles.alignAndPaddingView}>
-              <BottomAlignView
-                selectedAlignStyle={selectedAlignStyle}
-                setSeletedAlignStyle={setSeletedAlignStyle}
-              />
-              <BottomPaddingView
-                selectedAlignStyle={selectedAlignStyle}
-                selectedPaddingRight={selectedPaddingRight}
-                setSelectedPaddingRight={setSelectedPaddingRight}
-                selectedPaddingLeft={selectedPaddingLeft}
-                setSelectedPaddingLeft={setSelectedPaddingLeft}
-              />
-            </View>
           </View>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-    );
-  },
-);
+        </View>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
+  );
+});
 
 const getStyle = (theme: any) => {
   return StyleSheet.create({

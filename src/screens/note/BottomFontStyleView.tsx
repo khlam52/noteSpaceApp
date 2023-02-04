@@ -9,20 +9,27 @@ import { FontFormatStyle, FontStyleItem } from './NoteModel';
 interface Props {
   selectedFontStyle: string;
   setSelectedFontStyle: (size: string) => void;
-  selectedCallBack?: FontFormatStyle;
 }
 
 export const BottomFontStyleView: React.FC<Props> = props => {
-  const { selectedFontStyle, setSelectedFontStyle, selectedCallBack } = props;
+  const { selectedFontStyle, setSelectedFontStyle } = props;
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
   const styles = getStyle(theme);
 
-  const [isSelectedBold, setIsSelectedBold] = useState(false);
-  const [isSelectedItalic, setIsSelectedItalic] = useState(false);
-  const [isSelectedUnderline, setIsSelectedUnderline] = useState(false);
-  const [isSelectedLineThrough, setIsSelectedLineThrough] = useState(false);
+  const [isSelectedBold, setIsSelectedBold] = useState(
+    selectedFontStyle === 'B' ?? false,
+  );
+  const [isSelectedItalic, setIsSelectedItalic] = useState(
+    selectedFontStyle === 'I' ?? false,
+  );
+  const [isSelectedUnderline, setIsSelectedUnderline] = useState(
+    selectedFontStyle === 'U' ?? false,
+  );
+  const [isSelectedLineThrough, setIsSelectedLineThrough] = useState(
+    selectedFontStyle === 'S' ?? false,
+  );
 
   const fontStyleList = [
     {

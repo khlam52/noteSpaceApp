@@ -45,6 +45,8 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
   const [isShowFontIcon, setIsShowFontIcon] = useState<boolean>(false);
   const fontFormatModal = useRef<BottomSheetModal | null>(null);
 
+  const [editingTextIndex, setEditingTextIndex] = useState<number>(0);
+
   const BOTTOM_BTN_LIST = [
     {
       icon: <PhotoIcon />,
@@ -106,6 +108,7 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
               contentList={contentLayoutList}
               updateContentList={updateContentLayoutList}
               setIsShowFontIcon={setIsShowFontIcon}
+              setEditingTextIndex={setEditingTextIndex}
             />,
           );
         } else if (item.type === NOTE_CONTENT_TYPE.IMAGE) {
@@ -172,7 +175,15 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
         {renderContentLayoutListView()}
       </KeyboardAwareScrollView>
       {renderBottomView()}
-      <BottomFontFormatModalView ref={fontFormatModal} />
+      <BottomFontFormatModalView
+        ref={fontFormatModal}
+        selectedFontFormatCallback={
+          contentLayoutList[editingTextIndex] as NoteTextContent
+        }
+        editingTextIndex={editingTextIndex}
+        contentLayoutList={contentLayoutList}
+        updateContentLayoutList={updateContentLayoutList}
+      />
     </SafeAreaView>
   );
 };

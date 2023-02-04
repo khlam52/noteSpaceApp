@@ -8,11 +8,11 @@ import {
 import AppPressable from '../../components/AppPressable';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { SCREEN_WIDTH, sw } from '../../styles/Mixins';
-import { FontAlignItem } from './NoteModel';
+import { FontAlignItem, TextAlign } from './NoteModel';
 
 interface Props {
-  selectedAlignStyle: string;
-  setSeletedAlignStyle: (align: string) => void;
+  selectedAlignStyle: TextAlign;
+  setSeletedAlignStyle: (align: TextAlign) => void;
 }
 
 export const BottomAlignView: React.FC<Props> = props => {
@@ -25,15 +25,15 @@ export const BottomAlignView: React.FC<Props> = props => {
   const alignStylelist = [
     {
       icon: <LeftAlignIcon />,
-      style: 'left',
+      style: 'left' as TextAlign,
     },
     {
       icon: <CenterAlignIcon />,
-      style: 'center',
+      style: 'center' as TextAlign,
     },
     {
       icon: <RightAlignIcon />,
-      style: 'right',
+      style: 'right' as TextAlign,
     },
   ];
 
