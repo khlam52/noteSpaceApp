@@ -75,8 +75,20 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
   ];
 
   useEffect(() => {
-    console.log('noteitem:', noteItem);
+    if (!isCreateNote) {
+      initNoteItemContent();
+    }
   }, []);
+
+  //First Task
+  const initNoteItemContent = () => {
+    console.log('noteitem:', noteItem);
+    if (noteItem) {
+      setTitle(noteItem?.title);
+      setDate(noteItem?.date);
+      setContentLayoutList(noteItem?.content);
+    }
+  };
 
   const onBackIconPress = () => {
     navigation.goBack();
@@ -87,7 +99,16 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
   };
 
   const onSavePress = () => {
-    NoteHelper.createNote(title ?? '', contentLayoutList ?? []);
+    if (isCreateNote) {
+      NoteHelper.createNote(title ?? '', contentLayoutList ?? []);
+    } else {
+      NoteHelper.editNote(
+        title ?? '',
+        contentLayoutList ?? [],
+        noteItem?.uuid ?? '',
+      );
+    }
+
     navigation.goBack();
   };
 
@@ -175,15 +196,20 @@ export const NoteCreateAndEditScreen: React.FC<Props> = props => {
         enableOnAndroid={true}
         style={styles.inputContainer}
       >
-        <TextInput
-          value={title}
-          onChangeText={onChangeTitle}
-          placeholder={'Note Title'}
-          style={styles.inputTitleText}
-          placeholderTextColor={'#B6B6B6'}
-        />
-        <Text style={styles.dateText}>{CommonUtils.getMomentDate(date)}</Text>
-        {renderContentLayoutListView()}
+        <View>
+          <TextInput
+            value={title}
+            onChangeText={onChangeTitle}
+            placeholder={'Note Title'}
+            style={styles.inputTitleText}
+            placeholderTextColor={'#B6B6B6'}
+          />
+        </View>
+
+        <View>
+          <Text style={styles.dateText}>{CommonUtils.getMomentDate(date)}</Text>
+        </View>
+        <View>{renderContentLayoutListView()}</View>
       </KeyboardAwareScrollView>
       {renderBottomView()}
       <BottomFontFormatModalView

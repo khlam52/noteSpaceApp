@@ -15,6 +15,7 @@ import AppFocusAwareStatusBar from '../../components/AppFocusAwareStatusBar';
 import colors from '../../constants/colors';
 import { NOTE_CONTENT_TYPE } from '../../constants/Constants';
 import { useAppTheme } from '../../hooks/useAppTheme';
+import { Route } from '../../navigation/Route';
 import StorageService from '../../services/StorageService';
 import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
@@ -22,31 +23,7 @@ import NoteHelper from '../../util/NoteHelper';
 import { NoteContent, NoteItem } from '../note/NoteModel';
 import { NoteScreenContentItemView } from '../note/NoteScreenContentItemView';
 
-export const NoteScreen = () => {
-  const dummyList = [
-    {
-      title: 'aaa',
-      date: new Date(),
-      content: [
-        {
-          type: NOTE_CONTENT_TYPE.TEXT,
-          value: 'Note Text',
-          fontStyle: 'italic',
-          fontSize: sw(20),
-          fontWeight: 'bold',
-          textDecorationLine: 'underline',
-          textAlign: 'center',
-          paddingLeft: sw(0),
-          paddingRight: sw(0),
-        },
-        {
-          type: NOTE_CONTENT_TYPE.IMAGE,
-          img: 'sdfdsf',
-        },
-      ],
-      uuid: '111',
-    },
-  ];
+export const NoteScreen = ({ navigation }: any) => {
   const {
     themeSwitched: { settings: theme, name: themeName },
   } = useAppTheme();
@@ -71,6 +48,13 @@ export const NoteScreen = () => {
     setNoteListWithEvenIndex(NoteHelper.getNoteFlatListWithIndex(list, false));
   }, []);
 
+  const onNoteItemPress = (item: NoteItem) => {
+    navigation.navigate(Route.NOTE_CREATE_AND_EDIT_SCREEN, {
+      noteItem: item,
+      isCreateNote: false,
+    });
+  };
+
   const noResultScreen = () => (
     <View style={{ alignItems: 'center', marginTop: sw(150) }}>
       <NoNoteIcon />
@@ -89,10 +73,12 @@ export const NoteScreen = () => {
           <NoteScreenContentItemView
             contentList={noteListWithOddIndex}
             isLeftView={true}
+            onNoteItemPress={onNoteItemPress}
           />
           <NoteScreenContentItemView
             contentList={noteListWithEvenIndex}
             isLeftView={false}
+            onNoteItemPress={onNoteItemPress}
           />
         </View>
       </ScrollView>

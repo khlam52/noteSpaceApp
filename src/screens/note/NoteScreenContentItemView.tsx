@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleProp, StyleSheet, Text, View } from 'react-native';
+import AppPressable from '../../components/AppPressable';
 import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { NOTE_CONTENT_TYPE } from '../../constants/Constants';
 import { useAppTheme } from '../../hooks/useAppTheme';
@@ -15,15 +16,20 @@ import {
 interface NoteContentItemProps {
   contentList: NoteItem[];
   isLeftView: boolean;
+  onNoteItemPress: (noteItem: NoteItem) => void;
 }
 
 export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
   props => {
-    const { contentList, isLeftView } = props;
+    const { contentList, isLeftView, onNoteItemPress } = props;
     const {
       themeSwitched: { settings: theme, name: themeName },
     } = useAppTheme();
     const styles = getStyle(theme, isLeftView);
+
+    const onPress_ = (noteItem: NoteItem) => {
+      onNoteItemPress(noteItem);
+    };
 
     const getItemTextStyle: StyleProp<any> = (contentItem: NoteTextContent) => {
       return {
@@ -73,24 +79,30 @@ export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
               style={styles.itemView}
               fillColor={'#2A2A32'}
             >
-              <Text style={styles.itemTitle}>{item.title}</Text>
-              {item.content.map(
-                (contentItem: NoteContent, contentIndex: number) => {
-                  if (contentIndex < 2) {
-                    if (contentItem.type === NOTE_CONTENT_TYPE.TEXT) {
-                      return renderTextContent(
-                        contentItem as NoteTextContent,
-                        contentIndex,
-                      );
-                    } else if (contentItem.type === NOTE_CONTENT_TYPE.IMAGE) {
-                      return renderImageContent(
-                        contentItem as NoteImageContent,
-                        contentIndex,
-                      );
+              <AppPressable
+                onPress={() => {
+                  onPress_(item);
+                }}
+              >
+                <Text style={styles.itemTitle}>{item.title}</Text>
+                {item.content.map(
+                  (contentItem: NoteContent, contentIndex: number) => {
+                    if (contentIndex < 2) {
+                      if (contentItem.type === NOTE_CONTENT_TYPE.TEXT) {
+                        return renderTextContent(
+                          contentItem as NoteTextContent,
+                          contentIndex,
+                        );
+                      } else if (contentItem.type === NOTE_CONTENT_TYPE.IMAGE) {
+                        return renderImageContent(
+                          contentItem as NoteImageContent,
+                          contentIndex,
+                        );
+                      }
                     }
-                  }
-                },
-              )}
+                  },
+                )}
+              </AppPressable>
             </AppSquircleButtonView>
           );
         })}

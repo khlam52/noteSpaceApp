@@ -42,6 +42,24 @@ const createNote = async (title: string, content: NoteContent[]) => {
   StorageService.setNoteList(newNoteList);
 };
 
+const editNote = async (
+  title: string,
+  content: NoteContent[],
+  uuid: string,
+) => {
+  let currentList = await StorageService.getNoteList();
+  let newNoteList = currentList ? [...currentList] : [];
+  newNoteList.forEach((item: NoteItem) => {
+    if (item.uuid == uuid) {
+      item.title = title;
+      item.content = content;
+      item.date = new Date();
+    }
+  });
+  console.log('newNoteList:', newNoteList);
+  StorageService.setNoteList(newNoteList);
+};
+
 const accessImagePickerFunc = (
   contentLayoutList: NoteContent[] | any,
   updateContentLayoutList: (updatedList: NoteContent[]) => void,
@@ -151,6 +169,7 @@ const onBackspaceTextInputHandle = (
 export default {
   getNoteFlatListWithIndex,
   createNote,
+  editNote,
   accessImagePickerFunc,
   accessCameraPickerFunc,
   onPenIconPress,
