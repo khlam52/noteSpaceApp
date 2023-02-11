@@ -16,15 +16,15 @@ import { NoteCreateAndEditScreen } from '../screens/note/NoteCreateAndEditScreen
 
 const Stack = createStackNavigator<MainStackParams>();
 
-const authScreens: any = {};
-authScreens[Route.TAB_STACK] = TabStack;
-authScreens[Route.TASK_SCREEN] = TaskScreen;
-authScreens[Route.HOME_SCREEN] = HomeScreen;
-authScreens[Route.NOTE_SCREEN] = NoteScreen;
-authScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
-authScreens[Route.NOTE_CREATE_AND_EDIT_SCREEN] = NoteCreateAndEditScreen;
-authScreens[Route.LOGIN_SCREEN] = LoginScreen;
-authScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
+const commonScreens: any = {};
+commonScreens[Route.TAB_STACK] = TabStack;
+commonScreens[Route.TASK_SCREEN] = TaskScreen;
+commonScreens[Route.HOME_SCREEN] = HomeScreen;
+commonScreens[Route.NOTE_SCREEN] = NoteScreen;
+commonScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
+commonScreens[Route.NOTE_CREATE_AND_EDIT_SCREEN] = NoteCreateAndEditScreen;
+commonScreens[Route.LOGIN_SCREEN] = LoginScreen;
+commonScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
 
 export const MainStack = () => (
   <Stack.Navigator
@@ -32,7 +32,7 @@ export const MainStack = () => (
     screenOptions={{ headerShown: false }}
   >
     {Object.entries({
-      ...authScreens,
+      ...commonScreens,
     }).map(([name, component]: any, index: number) => {
       // console.log('name:', name);
       const keyIdn = name + '-' + index;

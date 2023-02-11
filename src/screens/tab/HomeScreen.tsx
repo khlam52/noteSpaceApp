@@ -116,7 +116,7 @@ const getStyle = (theme: any) => {
     versionText: {
       ...ts(theme.fonts.weight.regular, sw(18)),
       color: '#B6B6B6',
-      marginBottom: sw(60),
+      marginBottom: sw(36),
       textAlign: 'center',
     },
     itemView: {
@@ -124,7 +124,7 @@ const getStyle = (theme: any) => {
       alignItems: 'center',
       borderRadius: sw(12),
       paddingTop: sw(26),
-      marginVertical: Platform.OS === 'ios' ? sw(24) : sw(20),
+      marginVertical: sw(12),
       shadowOpacity: 0.5,
       shadowRadius: 30,
       shadowColor: '#000',
