@@ -2,6 +2,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {
   NoteContent,
   NoteItem,
+  NoteSelectItem,
   NoteTextContent,
 } from '../screens/note/NoteModel';
 import StorageService from '../services/StorageService';
@@ -25,7 +26,6 @@ const getNoteFlatListWithIndex = (
       });
     }
   }
-  console.log('flatList:', flatList);
   return flatList;
 };
 
@@ -166,6 +166,63 @@ const onBackspaceTextInputHandle = (
   updateContentLayoutList(newNoteContentLayoutList);
 };
 
+const getSelectedList = (noteList: NoteItem[]) => {
+  let tempList: NoteSelectItem[] = [];
+  noteList.forEach((item: NoteItem) => {
+    tempList.push({
+      uuid: item.uuid,
+      isSelected: false,
+    });
+  });
+  return tempList;
+};
+
+const onSelectAllPressedFunc = (
+  selectedList: NoteSelectItem[],
+  setSelectedList: React.Dispatch<React.SetStateAction<NoteSelectItem[]>>,
+) => {
+  let newValue =
+    selectedList.filter(item => item.isSelected).length === selectedList.length;
+  let temp = selectedList.map(item => {
+    return { ...item, isSelected: !newValue };
+  });
+  setSelectedList(temp);
+};
+
+const onNoteItemSelectedFunc = (
+  item: NoteItem,
+  selectedList: NoteSelectItem[],
+  setSelectedList: React.Dispatch<React.SetStateAction<NoteSelectItem[]>>,
+) => {
+  let selectedIndex = _.findIndex(selectedList, {
+    uuid: item.uuid,
+  });
+  let temp = selectedList.map(subItem => {
+    return item.uuid === subItem.uuid
+      ? {
+          ...subItem,
+          isSelected: !selectedList[selectedIndex].isSelected,
+        }
+      : subItem;
+  });
+  setSelectedList(temp);
+};
+
+const deleteNoteFunc = async (selectedList: NoteSelectItem[]) => {
+  let deletedList = _.filter(selectedList, { isSelected: true });
+  let deletedUidList = _.map(deletedList, item => {
+    return item.uuid;
+  });
+  let currentList = await StorageService.getNoteList();
+  let newNoteList = currentList ? [...currentList] : [];
+  currentList.map((item: NoteItem) => {
+    if (deletedUidList.includes(item.uuid)) {
+      newNoteList = _.reject(newNoteList, { uuid: item.uuid });
+    }
+  });
+  StorageService.setNoteList(newNoteList);
+};
+
 export default {
   getNoteFlatListWithIndex,
   createNote,
@@ -176,4 +233,8 @@ export default {
   deletePhotoItem,
   onChangeTextInputContent,
   onBackspaceTextInputHandle,
+  getSelectedList,
+  onSelectAllPressedFunc,
+  onNoteItemSelectedFunc,
+  deleteNoteFunc,
 };

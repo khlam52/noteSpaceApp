@@ -1,15 +1,19 @@
+import _ from 'lodash';
 import React from 'react';
 import { Image, StyleProp, StyleSheet, Text, View } from 'react-native';
+import { TickIcon, UnTickIcon } from '../../assets/images';
 import AppPressable from '../../components/AppPressable';
 import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { NOTE_CONTENT_TYPE } from '../../constants/Constants';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Typography } from '../../styles';
 import { sw } from '../../styles/Mixins';
+import NoteHelper from '../../util/NoteHelper';
 import {
   NoteContent,
   NoteImageContent,
   NoteItem,
+  NoteSelectItem,
   NoteTextContent,
 } from './NoteModel';
 
@@ -17,11 +21,23 @@ interface NoteContentItemProps {
   contentList: NoteItem[];
   isLeftView: boolean;
   onNoteItemPress: (noteItem: NoteItem) => void;
+  isItemLongPressed: boolean;
+  setIsItemLongPressed: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedList: NoteSelectItem[];
+  setSelectedList: React.Dispatch<React.SetStateAction<NoteSelectItem[]>>;
 }
 
 export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
   props => {
-    const { contentList, isLeftView, onNoteItemPress } = props;
+    const {
+      contentList,
+      isLeftView,
+      onNoteItemPress,
+      isItemLongPressed,
+      setIsItemLongPressed,
+      selectedList,
+      setSelectedList,
+    } = props;
     const {
       themeSwitched: { settings: theme, name: themeName },
     } = useAppTheme();
@@ -70,9 +86,41 @@ export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
       );
     };
 
+    const renderNoteItemSelectView = (item: NoteItem) => {
+      return (
+        <View>
+          <AppPressable
+            onPress={() => {
+              NoteHelper.onNoteItemSelectedFunc(
+                item,
+                selectedList,
+                setSelectedList,
+              );
+            }}
+          >
+            {selectedList.length !== 0 &&
+            selectedList[
+              _.findIndex(selectedList, {
+                uuid: item.uuid,
+              })
+            ].isSelected ? (
+              <TickIcon fill={'#FFEAA1'} width={sw(25)} height={sw(25)} />
+            ) : (
+              <UnTickIcon
+                stroke={'#FFEAA1'}
+                fill={'#2A2A32'}
+                width={sw(25)}
+                height={sw(25)}
+              />
+            )}
+          </AppPressable>
+        </View>
+      );
+    };
+
     return (
       <View style={styles.mainContainer}>
-        {contentList.map((item: NoteItem) => {
+        {contentList.map((item: NoteItem, index: number) => {
           return (
             <AppSquircleButtonView
               key={item.uuid}
@@ -83,6 +131,11 @@ export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
                 onPress={() => {
                   onPress_(item);
                 }}
+                onLongPress={() => {
+                  setIsItemLongPressed(true);
+                }}
+                disabled={isItemLongPressed}
+                hvDisabledStyle={isItemLongPressed}
               >
                 <Text style={styles.itemTitle}>{item.title}</Text>
                 {item.content.map(
@@ -103,6 +156,11 @@ export const NoteScreenContentItemView: React.FC<NoteContentItemProps> =
                   },
                 )}
               </AppPressable>
+              {isItemLongPressed && (
+                <View style={styles.longPressCircleView}>
+                  {renderNoteItemSelectView(item)}
+                </View>
+              )}
             </AppSquircleButtonView>
           );
         })}
@@ -139,6 +197,12 @@ const getStyle = (theme: any, isLeftView: boolean) => {
       height: sw(80),
       marginTop: sw(12),
       borderRadius: sw(12),
+    },
+    longPressCircleView: {
+      position: 'absolute',
+      right: 0,
+      marginRight: sw(12),
+      marginTop: sw(12),
     },
   });
 };

@@ -39,6 +39,11 @@ export interface NoteItem {
   uuid: string;
 }
 
+export interface NoteSelectItem {
+  uuid: string;
+  isSelected: boolean;
+}
+
 export interface FontSizeItem {
   option: string;
   title: string;
