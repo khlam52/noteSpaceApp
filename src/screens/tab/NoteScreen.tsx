@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 import {
   CloseIcon,
@@ -36,8 +36,10 @@ export const NoteScreen = ({ navigation }: any) => {
   const [isItemLongPressed, setIsItemLongPressed] = useState<boolean>(false);
 
   useEffect(() => {
-    getNoteList();
-  }, []);
+    if (!isItemLongPressed) {
+      getNoteList();
+    }
+  }, [noteListWithOddIndex, isItemLongPressed]);
 
   // First Note
   const getNoteList = async () => {
@@ -55,7 +57,6 @@ export const NoteScreen = ({ navigation }: any) => {
   };
 
   // Delete Handle
-
   const OnSelectAllPress = () => {
     NoteHelper.onSelectAllPressedFunc(selectedList, setSelectedList);
   };
@@ -118,7 +119,7 @@ export const NoteScreen = ({ navigation }: any) => {
       noteListWithEvenIndex.length === 0 ? (
         noResultScreen()
       ) : (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.scrollContentView}>
             <NoteScreenContentItemView
               contentList={noteListWithOddIndex}
@@ -169,6 +170,7 @@ const getStyle = (theme: any) => {
     scrollContentView: {
       flexDirection: 'row',
       paddingVertical: sw(24),
+      marginBottom: sw(90),
     },
     selectAllView: {
       flexDirection: 'row',

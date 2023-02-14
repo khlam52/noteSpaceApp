@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  LayoutAnimation,
   ListRenderItemInfo,
   SafeAreaView,
   SectionList,
@@ -33,13 +32,13 @@ export const TaskScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     getTaskList();
-  });
+  }, [taskSectionList]);
 
   // First Task
   const getTaskList = useCallback(async () => {
     let list = await StorageService.getTaskList();
     setTaskSectionList(TaskHelper.getTaskSectionList(list));
-  }, []);
+  }, [setTaskSectionList, taskSectionList]);
 
   const onDeleteTaskPress = () => {
     setIsShowDeleteTaskView(previous => !previous);
