@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  LayoutAnimation,
+} from 'react-native';
 import {
   CloseIcon,
   DeleteIcon,
@@ -34,6 +41,8 @@ export const NoteScreen = ({ navigation }: any) => {
 
   const [selectedList, setSelectedList] = useState<NoteSelectItem[]>([]);
   const [isItemLongPressed, setIsItemLongPressed] = useState<boolean>(false);
+
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
   useEffect(() => {
     if (!isItemLongPressed) {

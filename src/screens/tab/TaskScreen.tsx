@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  LayoutAnimation,
   ListRenderItemInfo,
   SafeAreaView,
   SectionList,
@@ -29,6 +30,8 @@ export const TaskScreen = ({ navigation }: any) => {
   const [taskSectionList, setTaskSectionList] = useState<TaskSection[]>([]);
   const [isShowDeleteTaskView, setIsShowDeleteTaskView] =
     useState<boolean>(false);
+
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
   useEffect(() => {
     getTaskList();
