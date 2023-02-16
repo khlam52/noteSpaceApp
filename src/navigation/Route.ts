@@ -1,6 +1,7 @@
 export const enum Route {
   MAIN_STACK = 'MAIN_STACK',
   TAB_STACK = 'TAB_STACK',
+  SPLASH_SCREEN = 'SPLASH_SCREEN',
   //Tab
   TASK_SCREEN = 'TASK_SCREEN',
   HOME_SCREEN = 'HOME_SCREEN',

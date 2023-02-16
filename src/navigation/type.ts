@@ -38,11 +38,8 @@ type NoteCreateAndEditScreenParam = {
 };
 
 export type MainStackParams = {
-  List: undefined;
-  TextDemo: undefined;
-  FormDemo: undefined;
-  ButtonDemo: undefined;
   [Route.TAB_STACK]: undefined;
+  [Route.SPLASH_SCREEN]: undefined;
   [Route.TASK_CREATE_AND_EDIT_SCREEN]: TaskCreateAndEditScreenParam;
   [Route.NOTE_CREATE_AND_EDIT_SCREEN]: NoteCreateAndEditScreenParam;
 };

@@ -1,5 +1,8 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 
 import { MainStackParams } from './type';
 import { Route } from './Route';
@@ -9,6 +12,7 @@ import { HomeScreen } from '../screens/tab/HomeScreen';
 import { NoteScreen } from '../screens/tab/NoteScreen';
 import { TaskCreateAndEditScreen } from '../screens/task/TaskCreateAndEditScreen';
 import { NoteCreateAndEditScreen } from '../screens/note/NoteCreateAndEditScreen';
+import { SplashScreen } from '../screens/launch/SplashScreen';
 
 const Stack = createStackNavigator<MainStackParams>();
 
@@ -20,24 +24,47 @@ commonScreens[Route.NOTE_SCREEN] = NoteScreen;
 commonScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
 commonScreens[Route.NOTE_CREATE_AND_EDIT_SCREEN] = NoteCreateAndEditScreen;
 
-export const MainStack = () => (
-  <Stack.Navigator
-    initialRouteName={Route.TAB_STACK}
-    screenOptions={{ headerShown: false }}
-  >
-    {Object.entries({
-      ...commonScreens,
-    }).map(([name, component]: any, index: number) => {
-      // console.log('name:', name);
-      const keyIdn = name + '-' + index;
-      return (
-        <Stack.Screen
-          key={keyIdn}
-          name={name}
-          component={component}
-          // options={{ headerTitle: 'Button Demo' }}
-        />
-      );
-    })}
-  </Stack.Navigator>
-);
+const launchScreen: any = {};
+launchScreen[Route.SPLASH_SCREEN] = SplashScreen;
+
+const forFade = ({ current }: any) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
+
+const getScreenCardStyleInterpolator = (name: Route) => {
+  switch (name) {
+    case Route.SPLASH_SCREEN:
+    case Route.TAB_STACK:
+      return forFade;
+    default:
+      return CardStyleInterpolators.forHorizontalIOS;
+  }
+};
+
+export const MainStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={Route.SPLASH_SCREEN}
+      screenOptions={{ headerShown: false }}
+    >
+      {Object.entries({
+        ...launchScreen,
+        ...commonScreens,
+      }).map(([name, component]: any, index: number) => {
+        const keyIdn = name + '-' + index;
+        return (
+          <Stack.Screen
+            key={keyIdn}
+            name={name}
+            component={component}
+            options={{
+              cardStyleInterpolator: getScreenCardStyleInterpolator(name),
+            }}
+          />
+        );
+      })}
+    </Stack.Navigator>
+  );
+};
