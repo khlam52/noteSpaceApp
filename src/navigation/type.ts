@@ -42,8 +42,6 @@ export type MainStackParams = {
   TextDemo: undefined;
   FormDemo: undefined;
   ButtonDemo: undefined;
-  [Route.LOGIN_SCREEN]: undefined;
-  [Route.SIGN_UP_SCREEN]: undefined;
   [Route.TAB_STACK]: undefined;
   [Route.TASK_CREATE_AND_EDIT_SCREEN]: TaskCreateAndEditScreenParam;
   [Route.NOTE_CREATE_AND_EDIT_SCREEN]: NoteCreateAndEditScreenParam;

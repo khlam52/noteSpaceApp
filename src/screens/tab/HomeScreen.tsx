@@ -13,7 +13,6 @@ import AppFocusAwareStatusBar from '../../components/AppFocusAwareStatusBar';
 import AppPressable from '../../components/AppPressable';
 import AppSquircleButtonView from '../../components/AppSquircleButtonView';
 import { AppConfig } from '../../config';
-import colors from '../../constants/colors';
 import { NOTE_CONTENT_TYPE } from '../../constants/Constants';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Route } from '../../navigation/Route';

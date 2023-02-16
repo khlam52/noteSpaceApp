@@ -1,9 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import CustomEventEmitter from '../util/CustomEventEmitter';
 import RootNavigation from './RootNavigation';

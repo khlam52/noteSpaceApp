@@ -1,12 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { List } from '../screens/List';
-import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import { MainStackParams } from './type';
 import { Route } from './Route';
-import { LoginScreen } from '../screens/auth/LoginScreen';
-import { SignUpScreen } from '../screens/auth/SignUpScreen';
 import { TabStack } from './TabStack';
 import { TaskScreen } from '../screens/tab/TaskScreen';
 import { HomeScreen } from '../screens/tab/HomeScreen';
@@ -23,8 +19,6 @@ commonScreens[Route.HOME_SCREEN] = HomeScreen;
 commonScreens[Route.NOTE_SCREEN] = NoteScreen;
 commonScreens[Route.TASK_CREATE_AND_EDIT_SCREEN] = TaskCreateAndEditScreen;
 commonScreens[Route.NOTE_CREATE_AND_EDIT_SCREEN] = NoteCreateAndEditScreen;
-commonScreens[Route.LOGIN_SCREEN] = LoginScreen;
-commonScreens[Route.SIGN_UP_SCREEN] = SignUpScreen;
 
 export const MainStack = () => (
   <Stack.Navigator
