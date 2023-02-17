@@ -1,7 +1,7 @@
+import 'react-native-get-random-values';
+import uuid from 'react-native-uuid';
 import { TaskItem, TaskSection } from '../screens/task/TaskModel';
 import StorageService from '../services/StorageService';
-import { v4 as uuidv4 } from 'uuid';
-import RootNavigation from '../navigation/RootNavigation';
 import _ from 'lodash';
 
 const getTaskSectionList = (taskList: TaskItem[]): TaskSection[] => {
@@ -40,7 +40,7 @@ const createTask = async (title: string, content: string) => {
     isCompleted: false,
     date: new Date(),
     taskContent: content,
-    uuid: uuidv4(),
+    uuid: uuid.v4(),
   };
   newTaskList.push(createTaskItem);
   StorageService.setTaskList(newTaskList);

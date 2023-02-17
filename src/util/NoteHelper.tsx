@@ -1,3 +1,5 @@
+import 'react-native-get-random-values';
+import uuid from 'react-native-uuid';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
   NoteContent,
@@ -7,7 +9,6 @@ import {
 } from '../screens/note/NoteModel';
 import StorageService from '../services/StorageService';
 import { sw } from '../styles/Mixins';
-import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 
 const getNoteFlatListWithIndex = (
@@ -36,7 +37,7 @@ const createNote = async (title: string, content: NoteContent[]) => {
     title: title,
     date: new Date(),
     content: content,
-    uuid: uuidv4(),
+    uuid: uuid.v4(),
   };
   newNoteList.push(createNoteItem);
   StorageService.setNoteList(newNoteList);
