@@ -1,1 +1,1 @@
-# RNProjectApp
+# React Native Typescript Project App
